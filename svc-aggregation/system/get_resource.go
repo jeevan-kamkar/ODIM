@@ -31,7 +31,7 @@ func GetAggregationSourceCollection() response.RPC {
 
 // GetAggregationSource is used  to fetch the AggregationSource with given aggregation source uri
 //and returns AggregationSource
-func GetAggregationSource() response.RPC {
+func GetAggregationSource(reqURI string) response.RPC {
 	// It need to be removed after the backend is implemented
 	return response.RPC{
 		StatusCode: http.StatusNotImplemented,

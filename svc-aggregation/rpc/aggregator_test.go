@@ -34,6 +34,7 @@ import (
 	"github.com/ODIM-Project/ODIM/lib-utilities/common"
 	"github.com/ODIM-Project/ODIM/lib-utilities/config"
 	aggregatorproto "github.com/ODIM-Project/ODIM/lib-utilities/proto/aggregator"
+	"github.com/ODIM-Project/ODIM/svc-aggregation/agmodel"
 	"github.com/ODIM-Project/ODIM/svc-aggregation/system"
 )
 
@@ -724,6 +725,24 @@ func TestAggregator_AddAggreagationSource(t *testing.T) {
 }
 
 func TestAggregator_GetAllAggregationSource(t *testing.T) {
+	defer func() {
+		common.TruncateDB(common.OnDisk)
+		common.TruncateDB(common.InMemory)
+	}()
+	req := agmodel.AggregationSource{
+		HostName: "10.24.0.14",
+		UserName: "admin",
+		Password: []byte("admin12345"),
+		Links: map[string]interface{}{
+			"Oem": map[string]interface{}{
+				"PluginID": "ILO",
+			},
+		},
+	}
+	err := agmodel.AddAggregationSource(req, "/redfish/v1/AggregationService/AggregationSource/123455")
+	if err != nil {
+		t.Fatalf("error: %v", err)
+	}
 	type args struct {
 		ctx  context.Context
 		req  *aggregatorproto.AggregatorRequest
@@ -764,6 +783,24 @@ func TestAggregator_GetAllAggregationSource(t *testing.T) {
 }
 
 func TestAggregator_GetAggregationSource(t *testing.T) {
+	defer func() {
+		common.TruncateDB(common.OnDisk)
+		common.TruncateDB(common.InMemory)
+	}()
+	req := agmodel.AggregationSource{
+		HostName: "10.24.0.14",
+		UserName: "admin",
+		Password: []byte("admin12345"),
+		Links: map[string]interface{}{
+			"Oem": map[string]interface{}{
+				"PluginID": "ILO",
+			},
+		},
+	}
+	err := agmodel.AddAggregationSource(req, "/redfish/v1/AggregationService/AggregationSource/123455")
+	if err != nil {
+		t.Fatalf("error: %v", err)
+	}
 	type args struct {
 		ctx  context.Context
 		req  *aggregatorproto.AggregatorRequest
