@@ -743,7 +743,6 @@ func TestAggregator_GetAllAggregationSource(t *testing.T) {
 	if err != nil {
 		t.Fatalf("error: %v", err)
 	}
-
 	type args struct {
 		ctx  context.Context
 		req  *aggregatorproto.AggregatorRequest
