@@ -57,10 +57,10 @@ func TestGetAggregationSourceCollection(t *testing.T) {
 		t.Fatalf("error: %v", err)
 	}
 	commonResponse := response.Response{
-		OdataType:    "#AggregationSourceCollection..v1_0_0.AggregationSourceCollection.",
+		OdataType:    "#AggregationSourceCollection.v1_0_0.AggregationSourceCollection",
 		OdataID:      "/redfish/v1/AggregationService/AggregationSource",
-		OdataContext: "/redfish/v1/$metadata#AggregationSourceCollection..AggregationSourceCollection.",
-		ID:           "Aggregation Source",
+		OdataContext: "/redfish/v1/$metadata#AggregationSourceCollection.AggregationSourceCollection",
+		ID:           "AggregationSource",
 		Name:         "Aggregation Source",
 	}
 	var resp1 = response.RPC{
@@ -144,7 +144,8 @@ func TestGetAggregationSource(t *testing.T) {
 		UserName: req.UserName,
 		Links:    req.Links,
 	}
-	resp2 := common.GeneralError(http.StatusNotFound, response.ResourceNotFound, err.Error(), []interface{}{"AggregationSource", "/redfish/v1/AggregationService/AggregationSource/12355"}, nil)
+	errMsg := "error: while trying to fetch Aggregation Source data: no data with the with key /redfish/v1/AggregationService/AggregationSource/12355 found"
+	resp2 := common.GeneralError(http.StatusNotFound, response.ResourceNotFound, errMsg, []interface{}{"AggregationSource", "/redfish/v1/AggregationService/AggregationSource/12355"}, nil)
 	type args struct {
 		reqURI string
 	}
