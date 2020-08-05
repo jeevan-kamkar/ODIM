@@ -122,7 +122,7 @@ func TestGetAggregationSource(t *testing.T) {
 		OdataType:    "#AggregationSource.v1_0_0.AggregationSource",
 		OdataID:      "/redfish/v1/AggregationService/AggregationSource/123455",
 		OdataContext: "/redfish/v1/$metadata#AggregationSource.AggregationSource",
-		ID:           "121234",
+		ID:           "123455",
 		Name:         "Aggregation Source",
 	}
 	var resp1 = response.RPC{
@@ -144,7 +144,7 @@ func TestGetAggregationSource(t *testing.T) {
 		UserName: req.UserName,
 		Links:    req.Links,
 	}
-
+	resp2 := common.GeneralError(http.StatusNotFound, response.ResourceNotFound, err.Error(), []interface{}{"AggregationSource", "/redfish/v1/AggregationService/AggregationSource/12355"}, nil)
 	type args struct {
 		reqURI string
 	}
@@ -165,9 +165,7 @@ func TestGetAggregationSource(t *testing.T) {
 			args: args{
 				reqURI: "/redfish/v1/AggregationService/AggregationSource/12355",
 			},
-			want: response.RPC{
-				StatusCode: http.StatusNotFound,
-			},
+			want: resp2,
 		},
 	}
 	for _, tt := range tests {
