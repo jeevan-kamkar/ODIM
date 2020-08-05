@@ -618,11 +618,11 @@ func (a *Aggregator) GetAllAggregationSource(ctx context.Context, req *aggregato
 		log.Printf(errMsg)
 		return nil
 	}
-	data := system.GetAllgut
+	data := system.GetAggregationSourceCollection()
 	resp.StatusCode = data.StatusCode
 	resp.StatusMessage = data.StatusMessage
 	resp.Header = data.Header
-	resp.Body = generateResponse(data.Body)
+	generateResponse(data, resp)
 	return nil
 }
 
@@ -642,6 +642,11 @@ func (a *Aggregator) GetAggregationSource(ctx context.Context, req *aggregatorpr
 		log.Printf(errMsg)
 		return nil
 	}
+	data := system.GetAggregationSource(req.URL)
+	resp.StatusCode = data.StatusCode
+	resp.StatusMessage = data.StatusMessage
+	resp.Header = data.Header
+	generateResponse(data, resp)
 	return nil
 }
 

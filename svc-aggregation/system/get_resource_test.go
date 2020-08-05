@@ -87,9 +87,7 @@ func TestGetAggregationSourceCollection(t *testing.T) {
 	}{
 		{
 			name: "Postive Case",
-			want: response.RPC{
-				StatusCode: http.StatusNotImplemented, //replace with resp1 after the implementation is completed
-			},
+			want: resp1,
 		},
 	}
 	for _, tt := range tests {
@@ -160,9 +158,7 @@ func TestGetAggregationSource(t *testing.T) {
 			args: args{
 				reqURI: "/redfish/v1/AggregationService/AggregationSource/123455",
 			},
-			want: response.RPC{
-				StatusCode: http.StatusNotImplemented, //replace with resp1 after the implementation is completed
-			},
+			want: resp1,
 		},
 		{
 			name: "Invalid Aggregation Source URI",
@@ -170,7 +166,7 @@ func TestGetAggregationSource(t *testing.T) {
 				reqURI: "/redfish/v1/AggregationService/AggregationSource/12355",
 			},
 			want: response.RPC{
-				StatusCode: http.StatusNotImplemented, //update the status code to http.StatusNotFound after implementation added
+				StatusCode: http.StatusNotFound
 			},
 		},
 	}
