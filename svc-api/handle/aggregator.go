@@ -358,7 +358,6 @@ func (a *AggregatorRPCs) GetAllAggregationSource(ctx iris.Context) {
 	common.SetResponseHeader(ctx, resp.Header)
 	ctx.StatusCode(int(resp.StatusCode))
 	ctx.Write(resp.Body)
-	ctx.StatusCode(http.StatusNotImplemented)
 }
 
 // GetAggregationSource is the handler for getting  AggregationSource details
