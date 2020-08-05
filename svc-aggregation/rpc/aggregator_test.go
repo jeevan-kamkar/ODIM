@@ -730,7 +730,7 @@ func TestAggregator_GetAllAggregationSource(t *testing.T) {
 		common.TruncateDB(common.InMemory)
 	}()
 	req := agmodel.AggregationSource{
-		HostName: "10.24.0.14",
+		HostName: "9.9.9.0",
 		UserName: "admin",
 		Password: []byte("admin12345"),
 		Links: map[string]interface{}{
@@ -788,7 +788,7 @@ func TestAggregator_GetAggregationSource(t *testing.T) {
 		common.TruncateDB(common.InMemory)
 	}()
 	req := agmodel.AggregationSource{
-		HostName: "10.24.0.14",
+		HostName: "9.9.9.0",
 		UserName: "admin",
 		Password: []byte("admin12345"),
 		Links: map[string]interface{}{
