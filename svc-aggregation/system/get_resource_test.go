@@ -166,7 +166,7 @@ func TestGetAggregationSource(t *testing.T) {
 				reqURI: "/redfish/v1/AggregationService/AggregationSource/12355",
 			},
 			want: response.RPC{
-				StatusCode: http.StatusNotFound
+				StatusCode: http.StatusNotFound,
 			},
 		},
 	}
