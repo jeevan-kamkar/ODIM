@@ -27,13 +27,14 @@
 package system
 
 import (
+	"net/http"
+	"reflect"
+	"testing"
+
 	"github.com/ODIM-Project/ODIM/lib-utilities/common"
 	"github.com/ODIM-Project/ODIM/lib-utilities/response"
 	"github.com/ODIM-Project/ODIM/svc-aggregation/agmodel"
 	"github.com/ODIM-Project/ODIM/svc-aggregation/agresponse"
-	"net/http"
-	"reflect"
-	"testing"
 )
 
 func TestGetAggregationSourceCollection(t *testing.T) {
@@ -42,7 +43,7 @@ func TestGetAggregationSourceCollection(t *testing.T) {
 		common.TruncateDB(common.InMemory)
 	}()
 	req := agmodel.AggregationSource{
-		HostName: "10.24.0.14",
+		HostName: "9.9.9.0",
 		UserName: "admin",
 		Password: []byte("admin12345"),
 		Links: map[string]interface{}{
@@ -106,7 +107,7 @@ func TestGetAggregationSource(t *testing.T) {
 		common.TruncateDB(common.InMemory)
 	}()
 	req := agmodel.AggregationSource{
-		HostName: "10.24.0.14",
+		HostName: "9.9.9.0",
 		UserName: "admin",
 		Password: []byte("admin12345"),
 		Links: map[string]interface{}{
@@ -154,15 +155,6 @@ func TestGetAggregationSource(t *testing.T) {
 		args args
 		want response.RPC
 	}{
-		{
-			name: "Postive Case",
-			args: args{
-				reqURI: "/redfish/v1/AggregationService/AggregationSource/123455",
-			},
-			want: response.RPC{
-				StatusCode: http.StatusNotImplemented, //replace with resp1 after the implementation is completed
-			},
-		},
 		{
 			name: "Postive Case",
 			args: args{
