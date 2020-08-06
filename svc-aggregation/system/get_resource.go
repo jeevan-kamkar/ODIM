@@ -58,7 +58,10 @@ func GetAggregationSourceCollection() response.RPC {
 		"OData-Version":     "4.0",
 	}
 	commonResponse.CreateGenericResponse(response.Success)
-
+  commonResponse.Message = ""
+	commonResponse.ID = ""
+	commonResponse.MessageID = ""
+	commonResponse.Severity = ""
 	resp.Body = agresponse.List{
 		Response:     commonResponse,
 		MembersCount: len(members),
@@ -99,7 +102,9 @@ func GetAggregationSource(reqURI string) response.RPC {
 		"OData-Version":     "4.0",
 	}
 	commonResponse.CreateGenericResponse(response.Success)
-
+  commonResponse.Message = ""
+	commonResponse.MessageID = ""
+	commonResponse.Severity = ""
 	resp.Body = agresponse.AggregationSourceResponse{
 		Response: commonResponse,
 		HostName: aggregationSource.HostName,
