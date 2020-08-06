@@ -326,14 +326,14 @@ var links = map[string]interface{}{
 	"Oem": oem,
 }
 var addAggregationSourceRequest = map[string]interface{}{
-	"Host":     "10.24.0.14",
+	"Host":     "9.9.9.0",
 	"UserName": "admin",
 	"Password": "Password1234",
 	"Links":    links,
 }
 
 var updateAggregationSourceRequest = map[string]interface{}{
-	"Host":     "10.24.0.14",
+	"Host":     "9.9.9.0",
 	"UserName": "admin",
 	"Password": "Password1234",
 }
