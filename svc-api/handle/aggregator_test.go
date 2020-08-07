@@ -419,7 +419,7 @@ func TestUpdateAggregationSource(t *testing.T) {
 
 func TestDeleteAggregationSource(t *testing.T) {
 	var a AggregatorRPCs
-	a.UpdateAggregationSourceRPC = testDeleteAggregationSourceRPCCall
+	a.DeleteAggregationSourceRPC = testDeleteAggregationSourceRPCCall
 	testApp := iris.New()
 	redfishRoutes := testApp.Party("/redfish/v1/AggregationService/AggregationSource")
 	redfishRoutes.Delete("/{id}", a.DeleteAggregationSource)
