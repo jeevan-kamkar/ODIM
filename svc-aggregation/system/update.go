@@ -16,6 +16,7 @@ package system
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"strings"
@@ -49,6 +50,12 @@ func (e *ExternalInterface) UpdateAggregationSource(req *aggregatorproto.Aggrega
 		log.Println(errMsg)
 		return common.GeneralError(http.StatusInternalServerError, response.InternalError, errMsg, nil, nil)
 	}
+	if len(updateRequest) <= 0 {
+		param := "HostName UserName Password "
+		errMsg := "error:  field " + param + " Missing"
+		log.Printf(errMsg)
+		return common.GeneralError(http.StatusBadRequest, response.PropertyMissing, errMsg, []interface{}{param}, nil)
+	}
 	var param string
 	for key, value := range updateRequest {
 		if value.(string) == "" {
@@ -66,6 +73,8 @@ func (e *ExternalInterface) UpdateAggregationSource(req *aggregatorproto.Aggrega
 	var hostNameUpdated bool
 	if _, ok := updateRequest["HostName"]; !ok {
 		updateRequest["HostName"] = aggregationSource.HostName
+
+	} else {
 		hostNameUpdated = true
 	}
 	if _, ok := updateRequest["Password"]; !ok {
@@ -80,11 +89,13 @@ func (e *ExternalInterface) UpdateAggregationSource(req *aggregatorproto.Aggrega
 		bytePassword := []byte(updateRequest["Password"].(string))
 		updateRequest["Password"] = bytePassword
 	}
+	var data = strings.Split(req.URL, "/redfish/v1/AggregationService/AggregationSource/")
 	links := aggregationSource.Links.(map[string]interface{})
-	if _, ok := links["PrefferedAuthType"]; ok {
-		resp = e.updateManagerAggregationSource(req.URL, aggregationSource, updateRequest, hostNameUpdated)
+	oem := links["Oem"].(map[string]interface{})
+	if _, ok := oem["PluginType"]; ok {
+		resp = e.updateManagerAggregationSource(data[1], aggregationSource, updateRequest, hostNameUpdated)
 	} else {
-		resp = e.updateBMCAggregationSource(req.URL, aggregationSource, updateRequest, hostNameUpdated)
+		resp = e.updateBMCAggregationSource(data[1], aggregationSource, updateRequest, hostNameUpdated)
 	}
 
 	if resp.StatusMessage != "" {
@@ -97,12 +108,11 @@ func (e *ExternalInterface) UpdateAggregationSource(req *aggregatorproto.Aggrega
 
 	dbErr = agmodel.UpdateAggregtionSource(aggregationSource, req.URL)
 	if dbErr != nil {
-		errMsg := "error while trying to update system info: " + dbErr.Error()
-		log.Println(errMsg)
+		errMsg := "error while trying to update aggregation source info: " + dbErr.Error()
+		fmt.Println(errMsg)
 		return common.GeneralError(http.StatusInternalServerError, response.InternalError, errMsg, nil, nil)
 	}
 
-	var data = strings.Split(req.URL, "/redfish/v1/AggregationService/AggregationSource/")
 	commonResponse := response.Response{
 		OdataType:    "#AggregationSource.v1_0_0.AggregationSource",
 		OdataID:      req.URL,
@@ -134,7 +144,8 @@ func (e *ExternalInterface) UpdateAggregationSource(req *aggregatorproto.Aggrega
 }
 func (e *ExternalInterface) updateManagerAggregationSource(aggregationSourceID string, aggregationSource agmodel.AggregationSource, updateRequest map[string]interface{}, hostNameUpdated bool) response.RPC {
 	links := aggregationSource.Links.(map[string]interface{})
-	pluginID := links["PluginID"].(string)
+	oem := links["Oem"].(map[string]interface{})
+	pluginID := oem["PluginID"].(string)
 	plugin, errs := agmodel.GetPluginData(pluginID)
 	if errs != nil {
 		errMsg := errs.Error()
@@ -255,7 +266,8 @@ func (e *ExternalInterface) updateManagerAggregationSource(aggregationSourceID s
 func (e *ExternalInterface) updateBMCAggregationSource(aggregationSourceID string, aggregationSource agmodel.AggregationSource, updateRequest map[string]interface{}, hostNameUpdated bool) response.RPC {
 	// Get the plugin  from db
 	links := aggregationSource.Links.(map[string]interface{})
-	pluginID := links["PluginID"].(string)
+	oem := links["Oem"].(map[string]interface{})
+	pluginID := oem["PluginID"].(string)
 	plugin, errs := agmodel.GetPluginData(pluginID)
 	if errs != nil {
 		errMsg := errs.Error()
@@ -352,12 +364,14 @@ func (e *ExternalInterface) updateBMCAggregationSource(aggregationSourceID strin
 			computeSystemID := computeSystem["Id"].(string)
 			computeSystemUUID := computeSystem["UUID"].(string)
 			oidKey := keyFormation(oDataID, computeSystemID, aggregationSourceID)
+			log.Println("Computer SystemUUID", computeSystemUUID)
 			indexList, err := agmodel.GetString("UUID", computeSystemUUID)
 			if err != nil {
 				errMsg := "error while trying get computer system index: " + err.Error()
 				log.Println(errMsg)
 				return common.GeneralError(http.StatusInternalServerError, response.InternalError, errMsg, nil, nil)
 			}
+			log.Println("Index List", indexList)
 			if len(indexList) <= 0 {
 				errMsg := "error: uuid of the added bmc is not matching with given HostName"
 				log.Println(errMsg)
