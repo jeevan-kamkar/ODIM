@@ -173,7 +173,10 @@ func (e *ExternalInterface) addPluginData(req AddResourceRequest, taskID, target
 			log.Println(errMsg)
 			return common.GeneralError(http.StatusInternalServerError, response.InternalError, errMsg, nil, taskInfo), "", nil
 		}
-		managerUUID = managerData["UUID"].(string)
+		if uuid, ok := managerData["UUID"]; ok {
+			managerUUID = uuid.(string)
+		}
+
 		managersData[pluginContactRequest.OID] = body
 	}
 	e.SubscribeToEMB(plugin.ID, queueList)

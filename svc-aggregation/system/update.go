@@ -218,7 +218,9 @@ func (e *ExternalInterface) updateManagerAggregationSource(aggregationSourceID s
 				log.Println(errMsg)
 				return common.GeneralError(http.StatusInternalServerError, response.InternalError, errMsg, nil, nil)
 			}
-			managerUUID = managerData["UUID"].(string)
+			if uuid, ok := managerData["UUID"]; ok {
+				managerUUID = uuid.(string)
+			}
 		}
 		if managerUUID != plugin.ManagerUUID {
 			errMsg := "error: uuid of the added managers is not matching with given HostName"
