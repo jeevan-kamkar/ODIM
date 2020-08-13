@@ -329,9 +329,9 @@ func TestDeleteAggregationSourceWithRediscovery(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := d.DeleteCompute(tt.args.req)
+			got := d.DeleteAggregationSource(tt.args.req)
 			if got.StatusCode != tt.want {
-				t.Errorf("DeleteCompute() = %v, want %v", got, tt.want)
+				t.Errorf("DeleteAggregationSource() = %v, want %v", got, tt.want)
 			}
 		})
 	}
