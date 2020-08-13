@@ -324,7 +324,7 @@ func TestDeleteAggregationSourceWithRediscovery(t *testing.T) {
 					URL:          "/redfish/v1/AggregationService/AggregationSource/ef83e569-7336-492a-aaee-31c02d9db831",
 				},
 			},
-			want: http.StatusNotImplemented, // To be  changed StatusNotAcceptable
+			want: http.StatusNotImplemented,
 		},
 	}
 	for _, tt := range tests {
