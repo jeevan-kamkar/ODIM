@@ -968,7 +968,7 @@ func TestAggregationSource(t *testing.T) {
 	err = AddAggregationSource(req, aggregationSourceURI)
 	assert.NotNil(t, err, "Error Should not be nil")
 	keys, dbErr := GetAllKeysFromTable("AggregationSource")
-	assert.NotNil(t, dbErr, "err should be nil")
+	assert.Nil(t, dbErr, "err should be nil")
 	assert.Equal(t, 1, len(keys), "length should be matching")
 	data, err := GetAggregationSourceInfo(aggregationSourceURI)
 	assert.Nil(t, err, "err should be nil")
