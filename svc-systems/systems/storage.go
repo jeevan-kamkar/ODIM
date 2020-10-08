@@ -279,7 +279,7 @@ func (e *ExternalInterface) DeleteVolume(req *systemsproto.VolumeRequest) respon
 	uuid := requestData[0]
 	target, gerr := smodel.GetTarget(uuid)
 	if gerr != nil {
-		return common.GeneralError(http.StatusBadRequest, response.ResourceNotFound, gerr.Error(), []interface{}{"System", uuid}, nil)
+		return common.GeneralError(http.StatusNotFound, response.ResourceNotFound, gerr.Error(), []interface{}{"System", uuid}, nil)
 	}
 	// Validating the storage instance
 	if strings.TrimSpace(req.VolumeID) == "" {

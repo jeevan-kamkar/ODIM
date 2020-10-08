@@ -320,7 +320,7 @@ func TestPluginContact_DeleteVolume(t *testing.T) {
 				VolumeID:        "1",
 				RequestBody:     []byte(`{"@Redfish.OperationApplyTime": "OnReset"}`),
 			},
-			wantStatusCode: http.StatusBadRequest,
+			wantStatusCode: http.StatusNotFound,
 		},
 		{
 			name: "Invalid volume id",
