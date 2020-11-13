@@ -56,8 +56,8 @@ func Publish(taskURI string, messageID string, eventType string) {
 	}
 
 	if err := k.Distribute("REDFISH-EVENTS-TOPIC", mbevent); err != nil {
-		log.Println("Unable Publish events to kafka", err)
+		log.Println("unable to publish the event to message bus: ", err)
 		return
 	}
-	log.Println("info: TaskURI:", taskURI, ", EventID:", eventID, ", MessageID:", messageID, " of the published event")
+	log.Println("info: TaskURI:", taskURI, ", EventID:", eventID, ", MessageID:", messageID)
 }
