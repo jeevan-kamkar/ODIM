@@ -154,7 +154,7 @@ func routers() *iris.Application {
 		biosParty.Get("/Settings", rfphandler.GetResource)
 		biosParty.Patch("/Settings", rfphandler.ChangeSettings)
 
-		chassis := pluginRoutes.Party("/Chassis")
+		chassis := pluginRoutes.Party("/Chassis", rfpmiddleware.BasicAuth)
 		chassis.Get("", rfphandler.GetResource)
 		chassis.Get("/{id}", rfphandler.GetResource)
 		chassis.Get("/{id}/NetworkAdapters", rfphandler.GetResource)
